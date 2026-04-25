@@ -46,7 +46,7 @@
                 <tbody>
                     @forelse($products as $product)
                         <tr>
-                            <td>#{{ $product->id }}</td>
+                            <td>{{ $product->id }}</td>
                             <td style="font-weight: 500;">{{ $product->name }}</td>
                             <td style="color: var(--text-muted);">{{ Str::limit($product->description, 30) }}</td>
                             <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
@@ -61,7 +61,7 @@
                                 <div class="actions" style="justify-content: flex-end;">
                                     <a href="{{ route('products.show', $product) }}" class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Lihat</a>
                                     <a href="{{ route('products.edit', $product) }}" class="btn btn-warning" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Edit</a>
-                                    <form action="{{ route('products.destroy', $product) }}" method="POST" onsubmit="return confirm('Hapus produk ini?')">
+                                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="delete-form">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Hapus</button>
@@ -85,3 +85,37 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<script>
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data produk ini akan dihapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                background: '#ffffff',
+                customClass: {
+                    popup: 'rounded-xl'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .rounded-xl {
+        border-radius: 12px !important;
+    }
+</style>
+@endpush
