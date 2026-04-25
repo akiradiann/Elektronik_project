@@ -38,7 +38,7 @@ class ProductController extends Controller
         
         $query->orderBy($sortColumn, $sortOrder);
 
-        $products = $query->paginate(5)->withQueryString();
+        $products = $query->paginate(10)->withQueryString();
 
         return view('products.index', compact('products'));
     }
@@ -65,9 +65,9 @@ class ProductController extends Controller
             'required' => 'data tidak boleh kosong',
             'price.numeric' => 'Harga harus berupa angka dan bernilai positif',
             'price.min' => 'Harga harus berupa angka dan bernilai positif',
-            'stock.numeric' => 'Stok harus berupa angka dan bernilai positif',
-            'stock.integer' => 'Stok harus berupa angka dan bernilai positif',
-            'stock.min' => 'Stok harus berupa angka dan bernilai positif',
+            'stock.numeric' => 'Stok harus berupa angka',
+            'stock.integer' => 'Stok harus bilangan bulat',
+            'stock.min' => 'Stok tidak boleh bernilai negatif',
         ]);
 
         Product::create($validated);
@@ -105,9 +105,9 @@ class ProductController extends Controller
             'required' => 'data tidak boleh kosong',
             'price.numeric' => 'Harga harus berupa angka dan bernilai positif',
             'price.min' => 'Harga harus berupa angka dan bernilai positif',
-            'stock.numeric' => 'Stok harus berupa angka dan bernilai positif',
-            'stock.integer' => 'Stok harus berupa angka dan bernilai positif',
-            'stock.min' => 'Stok harus berupa angka dan bernilai positif',
+            'stock.numeric' => 'Stok harus berupa angka',
+            'stock.integer' => 'Stok harus bilangan bulat',
+            'stock.min' => 'Stok tidak boleh bernilai negatif',
         ]);
 
         $product->update($validated);
